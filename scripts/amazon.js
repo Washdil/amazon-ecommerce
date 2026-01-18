@@ -1,6 +1,7 @@
+import { cart } from "../data/cart.js";
 
-let productHTML  = ``;
 
+let productHTML = ``;
 
 products.forEach((product) => {
   productHTML += `
@@ -53,44 +54,37 @@ products.forEach((product) => {
           </button>
         </div>
   `;
-  
-})
+});
 
-document.querySelector('.js-product-grid').innerHTML = productHTML;
+document.querySelector(".js-product-grid").innerHTML = productHTML;
 
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
-      let matchingItem;
-      cart.forEach((item) => {
-        if(productId === item.productId) {
-          matchingItem = item;
-        }
-      })
-
-      const quantitySelector = document.querySelector(`.js-quantity-selector-${button.dataset.productId}`);
-      console.log(quantitySelector)
-
-      if(matchingItem) {
-        matchingItem.quantity += Number(quantitySelector.value);
-      } else {
-        cart.push({
-        productId: productId,
-        quantity: Number(quantitySelector.value)
-      });
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = button.dataset.productId;
+    let matchingItem;
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+        matchingItem = item;
       }
-      
-      let cartQuantity = 0;
-      cart.forEach((item) => {
-        cartQuantity += item.quantity;
-      })
-      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+    });
 
-      console.log(cart)
+    const quantitySelector = document.querySelector(
+      `.js-quantity-selector-${button.dataset.productId}`,
+    );
 
-      
-  })
-} )
+    if (matchingItem) {
+      matchingItem.quantity += Number(quantitySelector.value);
+    } else {
+      cart.push({
+        productId: productId,
+        quantity: Number(quantitySelector.value),
+      });
+    }
 
-
-
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+  });
+});
