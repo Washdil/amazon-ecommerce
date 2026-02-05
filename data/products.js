@@ -89,6 +89,14 @@ const object3 = {
 object3.method();
 */
 
+function loadProductsFetch() {
+  fetch('https://supersimplebackend.dev/products').then((response) => {
+    console.log(response);
+  })
+}
+
+loadProductsFetch();
+
 export let products = [];
 
 export function loadProducts(fn) {
