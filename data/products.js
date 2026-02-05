@@ -11,7 +11,7 @@ export function getProduct(productId) {
 
   return matchingProduct;
 }
-  
+
 class Product {
   id;
   image;
@@ -89,13 +89,28 @@ const object3 = {
 object3.method();
 */
 
-function loadProductsFetch() {
-  fetch('https://supersimplebackend.dev/products').then((response) => {
-    console.log(response);
-  })
+export function loadProductsFetch() {
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      return response.json();
+    })
+    .then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if (productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+      console.log("load products");
+      
+    });
+    return promise;
 }
-
-loadProductsFetch();
+/*
+loadProductsFetch().then(() => {
+  console.log('next step')
+});
+*/
 
 export let products = [];
 
@@ -108,11 +123,10 @@ export function loadProducts(fn) {
       }
       return new Product(productDetails);
     });
-    console.log('load products')
+    console.log("load products");
     fn();
   });
 
-  
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
@@ -596,4 +610,3 @@ loadProducts();
 //   }
 //   return new Product(productDetails);
 // });
-
